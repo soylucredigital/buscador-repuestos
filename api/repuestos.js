@@ -1,13 +1,19 @@
 export default async function handler(req, res) {
-  const response = await fetch("https://soylucredigital.app.n8n.cloud/webhook/repuestos", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(req.body)
-  });
+  try {
+    const response = await fetch("https://soylucredigital.app.n8n.cloud/webhook/repuestos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(req.body)
+    });
 
-  const data = await response.json();
+    const text = await response.text();
 
-  res.status(200).json(data);
+    res.status(200).send(text);
+
+  } catch (error) {
+    console.error("ERROR API:", error);
+    res.status(500).json({ error: "Error conectando con n8n" });
+  }
 }
