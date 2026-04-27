@@ -37,22 +37,19 @@ async function enviar() {
 
   agregar(msg, "user");
 
-  const res = await fetch("https://soylucredigital.app.n8n.cloud/webhook/repuestos", {
+  const res = await fetch("/api/repuestos", {
     method: "POST",
     headers: {
-      "Content-Type": "text/plain"
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({ mensaje: msg })
   });
 
-  const data = await res.json();
-
-  const texto = data?.respuesta || "Error en respuesta";
+  const texto = await res.text();
 
   agregar(texto, "bot");
-
-  input.value = "";
-}
+    input.value = "";
+  }
 
 function agregar(texto, tipo) {
   const div = document.createElement("div");
